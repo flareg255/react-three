@@ -1,5 +1,6 @@
-import React, { useRef, useState } from 'react'
-import { useFrame } from 'react-three-fiber'
+import React, { useRef, useState } from 'react';
+import { useFrame } from 'react-three-fiber';
+import { randBetween } from './functions';
 
 const Box = (props) =>  {
   // This reference will give us direct access to the mesh
@@ -10,17 +11,12 @@ const Box = (props) =>  {
   const [active, setActive] = useState(false)
   
   // Rotate mesh every frame, this is outside of React without overhead
-  const randBetween = (start, end) => {
-    let r = 0;
-    r = Math.floor(Math.random() * end) + start;
-
-    return r;
-  }
   let rotationNum = 0.01;
 
   if(randBetween(1, 10) % 2 === 0){
     rotationNum = rotationNum * -1;
   }
+  console.log(mesh);
 
   useFrame(() => (mesh.current.rotation.x = mesh.current.rotation.y += rotationNum))
   

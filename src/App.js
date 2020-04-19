@@ -1,61 +1,50 @@
-import React, { Component } from 'react';
+import React, { useRef, useState } from 'react';
 import Box from './Box';
-import { Canvas } from 'react-three-fiber';
+import { Canvas, useFrame } from 'react-three-fiber';
+import { randBetween } from './functions';
+
 import style from './index.css';
 
-class App extends Component{
+const App = (props) => {
 
-    constructor(props){
-        super(props);
+    let list = [];
 
-        this.list = [];
+    for(let i = 0; i < 250; i++){
 
-        for(let i = 0; i < 250; i++){
+        let listChild = [];
 
-            let listChild = [];
-
-            for(let j = 0; j < 3; j++){
-                if(this.randBetween(1, 10) % 2 === 0){
-                    listChild[j] = this.randBetween(1, 10);
-                }else{
-                    listChild[j] = this.randBetween(1, 10) * -1;
-                }
-                
+        for(let j = 0; j < 3; j++){
+            if(randBetween(1, 10) % 2 === 0){
+                listChild[j] = randBetween(1, 10);
+            }else{
+                listChild[j] = randBetween(1, 10) * -1;
             }
-
-            this.list.push(listChild);
         }
 
-        this.boxList = [];
-
-        for(let data in this.list){
-            console.log(data);
-            this.boxList.push(<Box position={this.list[data]} />)
-        }
-
-        console.log(this.list);
-        console.log(this.boxList);
+        list.push(listChild);
     }
 
-    randBetween = (start, end) => {
-        let r = 0;
-        r = Math.floor(Math.random() * end) + start;
+    let boxList = [];
 
-        return r;
+    for(let data in list){
+        console.log(data);
+        boxList.push(<Box position={list[data]} />)
     }
-    
-    render(){
-        return (
-            <>
-                <Canvas camera={{ position: [0, 0, 15] }} shadowMap>
-                    <ambientLight />
-                    <pointLight position={[10, 10, 10]} />
-                    <fog attach="fog" args={['#cc7b32', 16, 20]} />
-                    {this.boxList}
-                </Canvas>
-            </>
-        )
-    }
+
+    console.log(list);
+    console.log(boxList);
+
+
+    return (
+        <>
+            <Canvas camera={{ position: [0, 0, 15] }} shadowMap>
+                <ambientLight />
+                <pointLight position={[10, 10, 10]} />
+                <fog attach="fog" args={['#cc7b32', 16, 20]} />
+                {boxList}
+            </Canvas>
+        </>
+    )
 }
 
 export default App;
